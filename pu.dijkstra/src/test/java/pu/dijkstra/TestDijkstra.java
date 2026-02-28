@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 public class TestDijkstra
 {
-public Pair<Graph, Node> createGraph()
+public Graph createBaeldungGraph()
 {
 	Graph graph = new Graph();
 	Node nodeA = new Node("A", graph );
@@ -27,16 +27,78 @@ public Pair<Graph, Node> createGraph()
 	
 	nodeF.addAdjacentNode(nodeE, 5);
 	
-	return new Pair<>( graph, nodeA );
+	graph.setStartNode( nodeA );
+	graph.setEndNode( nodeE );
+	return graph;
+}
+public Graph createComputerphileGraph()
+{
+	Graph graph = new Graph();
+	Node nodeS = new Node("S", graph );
+	Node nodeA = new Node("A", graph );
+	Node nodeB = new Node("B", graph );
+	Node nodeC = new Node("C", graph );
+	Node nodeD = new Node("D", graph ); 
+	Node nodeF = new Node("F", graph );
+	Node nodeG = new Node("G", graph );
+	Node nodeH = new Node("H", graph );
+	Node nodeI = new Node("I", graph );
+	Node nodeJ = new Node("J", graph );
+	Node nodeK = new Node("K", graph );
+	Node nodeL = new Node("L", graph );
+	Node nodeE = new Node("E", graph );
+	
+	nodeS.addAdjacentNode(nodeA, 7 );
+	nodeS.addAdjacentNode(nodeB, 2 );
+	nodeS.addAdjacentNode(nodeC, 3 );
+	
+	nodeA.addAdjacentNode(nodeB, 3 );
+	nodeA.addAdjacentNode(nodeD, 4 );
+	
+	nodeB.addAdjacentNode(nodeD, 4 );
+	nodeB.addAdjacentNode(nodeH, 1 );
+	
+	nodeC.addAdjacentNode(nodeL, 2 );
+	
+	nodeD.addAdjacentNode(nodeF, 5 );
+
+	//nodeF.addAdjacentNode(?????, 5 );
+	
+	nodeG.addAdjacentNode(nodeE, 2 );
+
+	nodeH.addAdjacentNode(nodeF, 3 );
+	nodeH.addAdjacentNode(nodeG, 2 );
+
+	nodeI.addAdjacentNode(nodeJ, 6 );
+	nodeI.addAdjacentNode(nodeK, 4 );
+
+	nodeJ.addAdjacentNode(nodeK, 4 );
+
+	nodeK.addAdjacentNode(nodeE, 5 );
+	
+	nodeL.addAdjacentNode(nodeI, 4 );
+	nodeL.addAdjacentNode(nodeJ, 4 );
+	
+	graph.setStartNode( nodeS );
+	graph.setEndNode( nodeE );
+	return graph;
 }
 @Test
 public void testBaeldungGraph()
 {
-	Pair<Graph, Node> pair = createGraph();
-	Graph graph = pair.getFirst();
-	Node startNode = pair.getSecond();
-	graph = new Dijkstra().calculateShortestPathFromSource( graph, startNode);
-	graph.printShortestPath();
+	Graph graph = createBaeldungGraph();
+	runGraph( graph );
+}
+@Test
+public void testComputerphileGraph()
+{
+	Graph graph = createComputerphileGraph();
+	runGraph( graph );
+}
+void runGraph( Graph aGraph )
+{
+	new Dijkstra().calculateShortestPathFromSource( aGraph);
+	aGraph.printShortestPath();
 }
 
 }
