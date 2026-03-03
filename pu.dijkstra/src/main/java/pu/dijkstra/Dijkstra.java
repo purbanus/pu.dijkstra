@@ -1,8 +1,10 @@
 package pu.dijkstra;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Dijkstra
@@ -14,25 +16,44 @@ public void calculateShortestPathFromSource( Graph aGraph )
 	source.setDistance( 0 );
 
 	Set<Node> settledNodes = new HashSet<>();
-	Set<Node> unsettledNodes = new HashSet<>();
+	PriorityQueue<Node> unsettledNodes = new PriorityQueue<>();
 
 	unsettledNodes.add( source );
 
 	while ( unsettledNodes.size() != 0 )
 	{
 		Node currentNode = getLowestDistanceNode( unsettledNodes );
-		unsettledNodes.remove( currentNode );
 		for ( Entry<Node, Integer> adjacencyPair : currentNode.getAdjacentNodes().entrySet() )
 		{
 			Node adjacentNode = adjacencyPair.getKey();
 			Integer edgeWeight = adjacencyPair.getValue();
 			if ( ! settledNodes.contains( adjacentNode ) )
 			{
-				calculateMinimumDistance( adjacentNode, edgeWeight, currentNode );
-				unsettledNodes.add( adjacentNode );
+				calculateMinimumDistance( unsettledNodes, adjacentNode, edgeWeight, currentNode );
 			}
 		}
 		settledNodes.add( currentNode );
+	}
+}
+private Node getLowestDistanceNode( PriorityQueue<Node> aUnsettledNodes )
+{
+	return aUnsettledNodes.poll();
+}
+private void calculateMinimumDistance( PriorityQueue<Node> aUnsettledNodes, Node aEvaluationNode, Integer aEdgeWeight, Node aSourceNode )
+{
+	Integer sourceDistance = aSourceNode.getDistance();
+	if ( sourceDistance + aEdgeWeight < aEvaluationNode.getDistance() )
+	{
+		if ( aEvaluationNode.getDistance() != Integer.MAX_VALUE )
+		{
+			aUnsettledNodes.remove( aEvaluationNode );
+		}
+		aEvaluationNode.setDistance( sourceDistance + aEdgeWeight );
+		List<Node> shortestPath = new ArrayList<>( aSourceNode.getShortestPath() );
+		shortestPath.add( aSourceNode );
+		aEvaluationNode.setShortestPath( shortestPath );
+
+		aUnsettledNodes.add( aEvaluationNode );
 	}
 }
 @SuppressWarnings( "unused" )
@@ -54,33 +75,6 @@ private String printShortNodes( Set<Node> aNodeSet )
 		}
 	}
 	return sb.toString();
-}
-private Node getLowestDistanceNode( Set<Node> unsettledNodes )
-{
-	// >@@NOG Het lijkt efficienter om hier een PriorityQueue te gebruiken
-	Node lowestDistanceNode = null;
-	int lowestDistance = Integer.MAX_VALUE;
-	for ( Node node : unsettledNodes )
-	{
-		int nodeDistance = node.getDistance();
-		if ( nodeDistance < lowestDistance )
-		{
-			lowestDistance = nodeDistance;
-			lowestDistanceNode = node;
-		}
-	}
-	return lowestDistanceNode;
-}
-private void calculateMinimumDistance( Node evaluationNode, Integer edgeWeight, Node sourceNode )
-{
-	Integer sourceDistance = sourceNode.getDistance();
-	if ( sourceDistance + edgeWeight < evaluationNode.getDistance() )
-	{
-		evaluationNode.setDistance( sourceDistance + edgeWeight );
-		LinkedList<Node> shortestPath = new LinkedList<>( sourceNode.getShortestPath() );
-		shortestPath.add( sourceNode );
-		evaluationNode.setShortestPath( shortestPath );
-	}
 }
 
 }
