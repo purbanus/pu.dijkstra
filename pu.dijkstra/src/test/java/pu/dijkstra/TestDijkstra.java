@@ -72,7 +72,7 @@ public Graph createComputerphileGraph()
 	nodeI.addAdjacentNode(nodeJ, 6 );
 	nodeI.addAdjacentNode(nodeK, 4 );
 
-	nodeJ.addAdjacentNode(nodeK, 4 );
+	nodeJ.addAdjacentNode(nodeK, 3 );
 
 	nodeK.addAdjacentNode(nodeE, 5 );
 	

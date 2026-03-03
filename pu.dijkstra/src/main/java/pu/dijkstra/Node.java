@@ -1,7 +1,7 @@
 package pu.dijkstra;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,15 +14,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Node
+public class Node implements Comparable<Node>
 {
 
-private String name;
+private final String name;
 private Integer distance = Integer.MAX_VALUE;
 
 @EqualsAndHashCode.Exclude
 @ToString.Exclude
-private List<Node> shortestPath = new LinkedList<>();
+private List<Node> shortestPath = new ArrayList<>();
 @EqualsAndHashCode.Exclude
 @ToString.Exclude
 Map<Node, Integer> adjacentNodes = new HashMap<>();
@@ -35,5 +35,10 @@ public Node( String aName, Graph aGraph )
 public void addAdjacentNode( Node aDestination, int aDistance )
 {
 	adjacentNodes.put( aDestination, aDistance );
+}
+@Override
+public int compareTo( Node aNode )
+{
+	return getDistance() - aNode.getDistance();
 }
 }
