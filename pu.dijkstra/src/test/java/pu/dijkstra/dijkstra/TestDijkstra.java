@@ -1,4 +1,13 @@
-package pu.dijkstra;
+package pu.dijkstra.dijkstra;
+
+//====================================================================================================================
+//BELANGRIJK
+//In Eclipse kan hij de volgende twee imports niet vinden. Deze moet je dus met de hand toevoegen
+//===================================================================================================================== 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,17 +97,36 @@ public void testBaeldungGraph()
 {
 	Graph graph = createBaeldungGraph();
 	runGraph( graph );
+	
+	Node nodeA = graph.getNode( "A" );
+	Node nodeB = graph.getNode( "B" );
+	Node nodeD = graph.getNode( "D" );
+	Node nodeE = graph.getNode( "E" );
+	List<Node> shortestPath = List.of( nodeA, nodeB, nodeD, nodeE );
+	assertThat( graph.getStartNode(), is( nodeA ) );
+	assertThat( graph.getEndNode(), is( nodeE ) );
+	assertThat( graph.getShortestPath(), is( shortestPath ) );
 }
 @Test
 public void testComputerphileGraph()
 {
 	Graph graph = createComputerphileGraph();
 	runGraph( graph );
+
+	Node nodeS = graph.getNode( "S" );
+	Node nodeB = graph.getNode( "B" );
+	Node nodeH = graph.getNode( "H" );
+	Node nodeG = graph.getNode( "G" );
+	Node nodeE = graph.getNode( "E" );
+	List<Node> shortestPath = List.of( nodeS, nodeB, nodeH, nodeG, nodeE );
+	assertThat( graph.getStartNode(), is( nodeS ) );
+	assertThat( graph.getEndNode(), is( nodeE ) );
+	assertThat( graph.getShortestPath(), is( shortestPath ) );
 }
 void runGraph( Graph aGraph )
 {
 	new Dijkstra().calculateShortestPathFromSource( aGraph);
-	aGraph.printShortestPath();
+	System.out.println( aGraph.getShortestPath() );
 }
 
 }

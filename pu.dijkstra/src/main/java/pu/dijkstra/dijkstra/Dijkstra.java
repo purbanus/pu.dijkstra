@@ -1,4 +1,4 @@
-package pu.dijkstra;
+package pu.dijkstra.dijkstra;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +34,7 @@ public void calculateShortestPathFromSource( Graph aGraph )
 		}
 		settledNodes.add( currentNode );
 	}
+	aGraph.getEndNode().getShortestPath().add( aGraph.getEndNode() );
 }
 private Node getLowestDistanceNode( PriorityQueue<Node> aUnsettledNodes )
 {
