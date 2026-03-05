@@ -1,4 +1,4 @@
-package pu.dijkstra;
+package pu.dijkstra.dijkstra;
 
 import java.util.ArrayList;
 import java.util.HashMap;
