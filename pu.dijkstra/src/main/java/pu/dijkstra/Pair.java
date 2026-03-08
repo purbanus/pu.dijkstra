@@ -25,6 +25,6 @@ public Pair<S, F> reverse()
 }
 public <R, U> Pair<R, U> transform( Function<F, R> xfirst, Function<S, U> xsecond )
 {
-	return new Pair<R, U>( xfirst.apply( first ), xsecond.apply( second ) );
+	return new Pair<>( xfirst.apply( first ), xsecond.apply( second ) );
 }
 }
